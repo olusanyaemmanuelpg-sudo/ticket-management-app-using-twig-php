@@ -1,5 +1,4 @@
 <?php
-echo "PHP is working";
 require_once 'vendor/autoload.php';
 require_once __DIR__ . '/auth.php';
 
