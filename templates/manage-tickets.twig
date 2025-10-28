@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Tickets - TicketFlow</title>
+    <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet" href="./css/tickets.css">
+</head>
+<body>
+
+    <!-- Toast -->
+    {% if toast %}
+    <div class="toast {{ toast.type }}">{{ toast.message }}</div>
+    <script>
+        setTimeout(() => document.querySelector('.toast')?.remove(), 3000);
+    </script>
+    {% endif %}
+
+    <main class="manage-tickets-page">
+        <section class="manage-ticket">
+            <nav>
+                <h2>TicketFlow</h2>
+                <a href="?page=dashboard"><button>Dashboard</button></a>
+            </nav>
+
+            <div class="manage-ticket-flex">
+                <h1>Tickets</h1>
+
+                <!-- Toggle Form Button -->
+                <form method="POST" action="?page=manage-tickets&action=toggle_form" style="display:inline;">
+                    <input type="hidden" name="editing_id" value="{{ editing_id|default('') }}">
+                    <button  type="submit" class="new-ticket-btn">
+                        {{ show_form ? 'Clean Input' : '+ New Ticket' }}
+                    </button>
+                </form>
+            </div>
+
+            <!-- Form -->
+            {% if show_form %}
+            <div class="form-section">
+                <h3>{{ editing_id ? 'Edit Ticket' : 'Create New Ticket' }}</h3>
+                <form method="POST" action="?page=manage-tickets&action=save">
+                    <input type="hidden" name="id" value="{{ editing_id|default('') }}">
+
+                    <div class="form-input">
+                        <label>Title *</label>
+                        <input type="text" name="title" value="{{ form.title|default('') }}" />
+                        {% if errors.title %}
+                            <span class="input-error">{{ errors.title }}</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-input">
+                        <label>Status *</label>
+                        <select name="status" class="select-input">
+                            <option value="open" {{ form.status == 'open' ? 'selected' }}>Open</option>
+                            <option value="in_progress" {{ form.status == 'in_progress' ? 'selected' }}>In Progress</option>
+                            <option value="closed" {{ form.status == 'closed' ? 'selected' }}>Closed</option>
+                        </select>
+                        {% if errors.status %}
+                            <span class="input-error">{{ errors.status }}</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-input">
+                        <label>Description *</label>
+                        <textarea name="description" class="desc-input">{{ form.description|default('') }}</textarea>
+                        {% if errors.description %}
+                            <span class="input-error">{{ errors.description }}</span>
+                        {% endif %}
+                    </div>
+
+                    <button type="submit" class="manage-btn">
+                        {{ editing_id ? 'Update' : 'Create' }} Ticket
+                    </button>
+
+                    <!-- Cancel Button (same as top) -->
+                    <a href="?page=manage-tickets" style="margin-left: 1rem; color: #666; text-decoration: underline;">
+                        Cancel
+                    </a>
+                </form>
+            </div>
+            {% endif %}
+
+            <!-- Ticket List -->
+            <div class="manage-grid">
+                {% for ticket in tickets %}
+                <div class="manage-grid-container">
+                    <div class="manage-grid-section">
+                        <div class="firstsection">
+                            <h3>{{ ticket.title }}</h3>
+                            <p>{{ ticket.description|default('No description') }}</p>
+                            <span class="ticket-status" style="background: {{ status_colors[ticket.status] }}33; color: {{ status_colors[ticket.status] }};">
+                                {{ ticket.status|replace({'_': ' '})|title }}
+                            </span>
+                        </div>
+                        <div class="secondsection">
+                            <form method="POST" action="?page=manage-tickets&action=edit" style="display:inline;">
+                                <input type="hidden" name="id" value="{{ ticket.id }}">
+                                <button type="submit" class="edit-btn">Edit</button>
+                            </form>
+                            <form method="POST" action="?page=manage-tickets&action=delete" 
+                                  onsubmit="return confirm('Delete this ticket?');" style="display:inline;">
+                                <input type="hidden" name="id" value="{{ ticket.id }}">
+                                <button type="submit" class="del-btn">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <p>No tickets yet.</p>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+
+    {% include 'footer.twig' %}
+</body>
+</html>

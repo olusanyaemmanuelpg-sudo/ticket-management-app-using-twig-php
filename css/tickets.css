@@ -1,0 +1,216 @@
+/** @format */
+
+html,
+body {
+	max-width: 100%;
+	overflow-x: hidden;
+}
+
+body {
+	background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+	min-height: 100vh;
+	position: relative;
+}
+main {
+	max-width: 1440px;
+	margin: 0 auto;
+	padding: 0 2rem;
+	position: relative;
+	z-index: 1;
+	overflow: hidden;
+}
+.manage-tickets-page {
+	min-height: 100vh;
+}
+
+nav {
+	margin-bottom: 2rem;
+	padding: 1.5rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+nav h2 {
+	color: white;
+	font-size: 1.5rem;
+	font-weight: bold;
+}
+nav button {
+	background: rgba(51, 65, 85, 0.8);
+	color: white;
+	border: 1px solid rgba(148, 163, 184, 0.3);
+	padding: 0.75rem 1.2rem;
+	border-radius: 8px;
+	cursor: pointer;
+	font-weight: 600;
+	font-size: 1rem;
+	transition: all 0.3s ease;
+}
+nav h2 {
+	font-size: 1.6rem;
+}
+
+.manage-ticket-flex {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 0 1.5rem;
+	padding: 0 2rem;
+	flex-wrap: wrap;
+}
+.manage-ticket-flex h1 {
+	color: white;
+	font-size: 2.2rem;
+	margin-bottom: 0.5rem;
+}
+.manage-ticket-flex button,
+.manage-btn {
+	background: linear-gradient(135deg, #3b82f6, #2563eb);
+	color: white;
+	border: none;
+	padding: 0.9rem 1.6rem;
+	border-radius: 8px;
+	cursor: pointer;
+	font-weight: bold;
+	font-size: 1.1rem;
+	transition: all 0.3s ease;
+}
+
+.form-section {
+	background: rgba(30, 41, 59, 0.8);
+	padding: 1.5rem;
+	margin: 1.5rem;
+	border-radius: 12px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+	border: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+.form-section h3 {
+	color: white;
+	margin-bottom: 1rem;
+	font-size: 1.2rem;
+}
+
+.form-input {
+	margin-bottom: 1rem;
+}
+.form-input label {
+	color: #cbd5e1;
+	display: block;
+	margin-bottom: 0.5rem;
+	font-size: 1rem;
+}
+.form-input input,
+.select-input,
+.desc-input {
+	width: 100%;
+	padding: 0.8rem;
+	background: rgba(15, 23, 42, 0.6);
+	font-size: 1rem;
+	color: white;
+	border-radius: 8px;
+	border: 1px solid rgba(148, 163, 184, 0.3);
+}
+.desc-input {
+	min-height: 100px;
+}
+.manage-grid {
+	display: grid;
+	gap: 1.5rem;
+	margin-top: 1.5rem;
+	padding: 0 2rem;
+}
+.manage-grid-container {
+	background: rgba(30, 41, 59, 0.8);
+	padding: 1.5rem;
+	border-radius: 12px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+	border: 1px solid rgba(148, 163, 184, 0.1);
+}
+.manage-grid-section {
+	display: flex;
+	justify-content: space-between;
+	align-items: start;
+}
+.firstsection {
+	flex: 1;
+}
+.firstsection h3 {
+	color: white;
+	font-size: 1.4rem;
+	margin-bottom: 0.5rem;
+}
+.firstsection p {
+	color: #94a3b8;
+	margin-bottom: 1.2rem;
+}
+.secondsection {
+	display: flex;
+	gap: 0.5rem;
+}
+
+.edit-btn {
+	background: rgba(51, 65, 85, 0.8);
+	color: white;
+	border: 1px solid rgba(148, 163, 184, 0.3);
+	padding: 0.65rem 1.2rem;
+	border-radius: 8px;
+	cursor: pointer;
+	font-weight: 600;
+	font-size: 1rem;
+	transition: all 0.3s ease;
+}
+.del-btn {
+	background: #ef4444;
+	color: white;
+	border: 1px solid rgba(148, 163, 184, 0.3);
+	padding: 0.65rem 1.2rem;
+	border-radius: 8px;
+	cursor: pointer;
+	font-weight: 600;
+	font-size: 1rem;
+	transition: all 0.3s ease;
+}
+
+.input-error {
+	color: #ef4444;
+	font-size: 0.9rem;
+	display: block;
+	margin-top: 0.25rem;
+}
+
+@media (max-width: 500px) {
+	.manage-grid-section {
+		display: block;
+		gap: 30px;
+	}
+	.ticket-status {
+		margin-bottom: 15px;
+	}
+}
+
+.toast {
+	position: fixed;
+	top: 20px;
+	right: 20px;
+	color: white;
+	padding: 1rem 1.5rem;
+	border-radius: 8px;
+	box-sizing: 0 4px;
+	z-index: 9999;
+	animation: slideIn 0.3s ease;
+	max-width: 400px;
+}
+.toast.success {
+	background-color: #10b981;
+}
+@keyframes slideIn {
+	from {
+		transform: translateX(100%);
+		opacity: 0;
+	}
+	to {
+		transform: translateX(0);
+		opacity: 1;
+	}
+}
