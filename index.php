@@ -1,4 +1,5 @@
 <?php
+echo "PHP is working";
 require_once 'vendor/autoload.php';
 require_once __DIR__ . '/auth.php';
 
@@ -27,7 +28,7 @@ if (!isset($_SESSION['tickets'])) {
         ],
     ];
 }
-$tickets = &$_SESSION['tickets'];   // safe reference
+$tickets = &$_SESSION['tickets']; 
 
 $features = [
     ['title' => 'Real-time Updates',   'desc' => 'Get instant notifications on ticket status changes'],
@@ -116,15 +117,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-/* ------------------------------------------------------------------
-   READ TOAST (after redirects)
------------------------------------------------------------------- */
 $toast = $_SESSION['toast'] ?? null;
 unset($_SESSION['toast']);
 
-/* ------------------------------------------------------------------
-   PAGE ROUTING
------------------------------------------------------------------- */
 switch ($page) {
 
     case 'login':
