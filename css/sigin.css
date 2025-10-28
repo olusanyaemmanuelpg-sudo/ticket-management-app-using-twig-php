@@ -15,6 +15,7 @@ body {
 /** @format */
 
 .Signin-section {
+	max-width: 1440px;
 	min-height: 100vh;
 	display: flex;
 	align-items: center;

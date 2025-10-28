@@ -3,26 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Dashboard - TicketFlow</title>
     <link rel="stylesheet" href="./css/index.css">
-    <link rel="stylesheet" href="./css/LandingPage.css">
     <link rel="stylesheet" href="./css/dashboard.css">
-
 </head>
 <body>
+
+    <!-- Toast -->
     {% if toast %}
-    <div class="toast {{toast.type}}" >
-      {{toast.message}}
-    </div>
+    <div class="toast {{ toast.type }}">{{ toast.message }}</div>
     <script>
-      setTimeout(() => {
-        const toast = document.querySelector('.toast');
-        if(toast) toast.remove();
-      }, 3000);
+        setTimeout(() => document.querySelector('.toast')?.remove(), 3000);
     </script>
     {% endif %}
 
-    <h1>{{user.name}}</h1>
+    <main class="dashboard-section">
+        <div class="dashboard-page">
+            <nav class="dash-nav">
+                <h2>TicketFlow</h2>
+                <form method="POST" action="?page=logout" style="display: inline;">
+                    <button type="submit">Logout</button>
+                </form>
+            </nav>
+
+            <h1>Welcome, {{ user.name }}!</h1>
+            <p>Here's your ticket overview</p>
+
+            <div class="dashboard-grid">
+                <!-- Total Tickets -->
+                <div class="StatcardStyle" style="border: 2px solid #3b82f633;">
+                    <h3>Total Tickets</h3>
+                    <p>{{ tickets|length }}</p>
+                </div>
+
+                <!-- Open -->
+                <div class="StatcardStyle" style="border: 2px solid #10b98133;">
+                    <h3>Open</h3>
+                    <p>{{ tickets|filter(t => t.status == 'open')|length }}</p>
+                </div>
+
+                <!-- In Progress -->
+                <div class="StatcardStyle" style="border: 2px solid #f59e0b33;">
+                    <h3>In Progress</h3>
+                    <p>{{ tickets|filter(t => t.status == 'in_progress')|length }}</p>
+                </div>
+
+                <!-- Closed -->
+                <div class="StatcardStyle" style="border: 2px solid #6b728033;">
+                    <h3>Closed</h3>
+                    <p>{{ tickets|filter(t => t.status == 'closed')|length }}</p>
+                </div>
+            </div>
+
+            <a href="?page=manage-tickets">
+                <button class="manage-tickets">Manage Tickets →</button>
+            </a>
+        </div>
+    </main>
+
+    <!-- Footer -->
     {% include 'footer.twig' %}
 </body>
 </html>

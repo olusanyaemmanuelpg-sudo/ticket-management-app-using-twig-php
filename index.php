@@ -10,8 +10,34 @@ $twig   = new \Twig\Environment($loader, ['cache' => false]);
 /* ------------------------------------------------------------------
    MOCK DATA
 ------------------------------------------------------------------ */
-$tickets = [ /* your tickets */ ];
-$features = [ /* your features */ ];
+$tickets = [[
+			'id' => 1,
+			'title' => 'Fix login bug',
+			'status' => 'open',
+			'description' =>  'Users cannot log in',
+			'priority' =>  'high',
+			'createdAt' =>  time(),
+],
+		[
+			'id' =>  2,
+			'title' => 'Update docs',
+			'status' => 'in_progress',
+			'description' =>  'Need to update API docs',
+			'priority' => 'medium',
+			'createdAt' =>  time(),
+        ], ];
+$features = [ [
+			'title' =>  'Real-time Updates',
+			'desc' =>  'Get instant notifications on ticket status changes',
+],
+		[
+			'title' => 'Team Collaboration',
+			'desc' =>  'Work together seamlessly with your team',
+        ],
+		[
+			'title' =>  'Advanced Filtering',
+			'desc' =>  'Find tickets quickly with powerful search',
+        ],];
 
 /* ------------------------------------------------------------------
    HELPERS
@@ -137,10 +163,19 @@ switch ($page) {
             header('Location: ?page=login');
             exit;
         }
+
+        $stats = [
+            'total'       => count($tickets),
+            'open'        => count(array_filter($tickets, fn($t) => $t['status'] === 'open')),
+            'in_progress' => count(array_filter($tickets, fn($t) => $t['status'] === 'in_progress')),
+            'closed'      => count(array_filter($tickets, fn($t) => $t['status'] === 'closed')),
+        ];
+
         echo $twig->render('dashboard.twig', [
             'user'    => $user,
             'tickets' => $tickets,
-            'toast'   => $toast   // This will now work!
+            'stats'   => $stats,
+            'toast'   => $toast
         ]);
         break;
 

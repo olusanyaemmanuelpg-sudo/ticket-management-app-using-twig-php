@@ -12,6 +12,7 @@ body {
 	position: relative;
 }
 .loginSection {
+	max-width: 1440px;
 	min-height: 100vh;
 	display: flex;
 	align-items: center;
@@ -99,7 +100,7 @@ body {
 	border-radius: 8px;
 	box-sizing: 0 4px;
 	z-index: 9999;
-	animation: 0.3s ease;
+	animation: slideIn 0.3s ease;
 	max-width: 400px;
 }
 .toast.success {
@@ -107,6 +108,16 @@ body {
 }
 .toast.error {
 	background-color: #ef4444;
+}
+@keyframes slideIn {
+	from {
+		transform: translateX(100%);
+		opacity: 0;
+	}
+	to {
+		transform: translateX(0);
+		opacity: 1;
+	}
 }
 
 .input-error {

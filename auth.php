@@ -31,6 +31,6 @@ function signup($name, $email, $password) {
     return ['success' => true];
 }
 
-function logout() {
+function logout() {  
     session_destroy();
 }
