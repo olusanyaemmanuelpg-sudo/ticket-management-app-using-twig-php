@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet" href="./css/login.css">
+    <title>Login Page</title>
+</head>
+<body>
+    {% if toast %}
+    <div class="toast {{ toast.type }}">{{ toast.message }}</div>
+    <script>
+        setTimeout(() => document.querySelector('.toast')?.remove(), 3000);
+    </script>
+    {% endif %}
+
+    <section class="loginSection">
+        <div class="loginPage">
+            <h2>Welcome Back</h2>
+            <p>Login to your account</p>
+
+            <form method="POST" action="?page=login">
+                <div class="login-input">
+                    <label>Email</label>
+                    <input type="email" name="email" placeholder="admin@ticket.com"
+                           value="{{ email|default('') }}">
+                    {% if errors.email %}<span class="input-error">{{ errors.email }}</span>{% endif %}
+                </div>
+
+                <div class="login-input">
+                    <label>Password</label>
+                    <input type="password" name="password" placeholder="password123">
+                    {% if errors.password %}<span class="input-error">{{ errors.password }}</span>{% endif %}
+                </div>
+
+                <button type="submit" class="login-btn">Login</button>
+            </form>
+
+            <p class="login-signup">
+                Don't have an account? <a href="?page=signin">Sign up</a>
+            </p>
+
+            <a href="/"><button class="back-to-home">Back to Home</button></a>
+        </div>
+    </section>
+
+    <footer><p>© 2025 Ticket App</p></footer>
+</body>
+</html>

@@ -1,0 +1,17 @@
+/** @format */
+
+.toast {
+	position: fixed;
+	top: 20px;
+	right: 20px;
+	color: white;
+	padding: 1rem 1.5rem;
+	border-radius: 8px;
+	box-sizing: 0 4px;
+	z-index: 9999;
+	animation: 0.3s ease;
+	max-width: 400px;
+}
+.toast.success {
+	background-color: #10b981;
+}
