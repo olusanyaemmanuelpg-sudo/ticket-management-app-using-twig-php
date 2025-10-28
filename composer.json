@@ -1,0 +1,11 @@
+{
+    "name": "olusanyaemmanuel/ticket-app-with-twig",
+    "autoload": {
+        "psr-4": {
+            "Olusanyaemmanuel\\TicketAppWithTwig\\": "src/"
+        }
+    },
+    "require": {
+        "twig/twig": "^3.21"
+    }
+}
