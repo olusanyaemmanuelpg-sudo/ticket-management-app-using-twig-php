@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - TicketFlow</title>
+     <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet" href="./css/sigin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Toast Notification -->
+    {% if toast %}
+    <div class="toast {{ toast.type }}">
+        {{ toast.message }}
+    </div>
+    <script>
+        setTimeout(() => {
+            const toast = document.querySelector('.toast');
+            if (toast) toast.remove();
+        }, 3000);
+    </script>
+    {% endif %}
+
+    <section class="Signin-section">
+        <div class="signin-page">
+            <h2>Create Account</h2>
+            <p>Get started with TicketFlow</p>
+
+            <form method="POST" action="?page=signin">
+                <div class="signInput">
+                    <label>Full Name</label>
+                    <input 
+                        type="text" 
+                        name="name" 
+                        value="{{ name|default('') }}" 
+                       
+                    />
+                    {% if errors.name %}
+                        <span class="input-error">{{ errors.name }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="signInput">
+                    <label>Email</label>
+                    <input 
+                        type="email" 
+                        name="email" 
+                        value="{{ email|default('') }}" 
+                       
+                    />
+                    {% if errors.email %}
+                        <span class="input-error">{{ errors.email }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="signInput">
+                    <label>Password</label>
+                    <div class="password-wrapper">
+                        <input 
+                            type="{{ show_password ? 'text' : 'password' }}" 
+                            name="password" 
+                            value="{{ password|default('') }}"
+                            
+                        />
+                        <i 
+                            class="{{ show_password ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye' }} password-icon"
+                            onclick="togglePassword(this)"
+                        ></i>
+                    </div>
+                    {% if errors.password %}
+                        <span class="input-error">{{ errors.password }}</span>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="signin-btn">Sign Up</button>
+            </form>
+
+            <p class="sign-login">
+                Already have an account? <a href="?page=login">Login</a>
+            </p>
+
+            <a href="/">
+                <button class="back-to-home">Back to Home</button>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    {% include 'footer.twig' %}
+
+    <script>
+        function togglePassword(icon) {
+            const input = icon.previousElementSibling;
+            const isPassword = input.type === 'password';
+            input.type = isPassword ? 'text' : 'password';
+            icon.classList.toggle('fa-eye', isPassword);
+            icon.classList.toggle('fa-eye-slash', !isPassword);
+        }
+    </script>
+</body>
+</html>

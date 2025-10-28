@@ -59,19 +59,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // ---------- SIGNUP ----------
     if ($page === 'signin') {
-        $name     = trim($_POST['name'] ?? '');
-        $email    = trim($_POST['email'] ?? '');
-        $password = $_POST['password'] ?? '';
+    $name     = trim($_POST['name'] ?? '');
+    $email    = trim($_POST['email'] ?? '');
+    $password = $_POST['password'] ?? '';
+    $errors   = [];
 
-        if ($name && $email && $password) {
-            signup($name, $email, $password);
-            $_SESSION['toast'] = ['message' => 'Account created!', 'type' => 'success'];
+    if (!$name)     $errors['name']     = 'Full Name is required';
+    if (!$email)    $errors['email']    = 'Email is required';
+    if (!$password) $errors['password'] = 'Password is required';
+
+    if (!$errors) {
+        $result = signup($name, $email, $password);
+        if ($result['success']) {
+            $_SESSION['toast'] = ['message' => 'Account created successfully!', 'type' => 'success'];
+            header('Location: ?page=dashboard');
+            exit;
         } else {
-            $_SESSION['toast'] = ['message' => 'All fields are required', 'type' => 'error'];
+            $_SESSION['toast'] = ['message' => $result['error'] ?? 'Signup failed', 'type' => 'error'];
         }
-        header('Location: ?page=dashboard');
-        exit;
     }
+
+    // Re-render with errors
+    echo $twig->render('signin.twig', [
+        'user'     => $user,
+        'toast'    => $_SESSION['toast'] ?? null,
+        'errors'   => $errors,
+        'name'     => $name,
+        'email'    => $email,
+        'password' => $password,
+        'show_password' => false
+    ]);
+    unset($_SESSION['toast']);
+    exit;
+}
 
     // ---------- LOGOUT ----------
     if ($page === 'logout') {
@@ -103,7 +123,12 @@ switch ($page) {
     case 'signin':
         echo $twig->render('signin.twig', [
             'user'  => $user,
-            'toast' => $toast
+            'toast' => $toast,
+            'errors' => [],
+            'name' => '',
+            'email' => '',
+            'password' => '',
+            'show_password' => false,
         ]);
         break;
 
