@@ -1,53 +1,36 @@
 <?php
-require_once '../vendor/autoload.php';
-require_once 'auth.php';
+session_start();
 
-$loader = new \Twig\Loader\FilesystemLoader('../templates');
-$twig = new \Twig\Environment($loader);
-
-$page = $_GET['page'] ?? 'landingpage';
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  if ($page === 'login') {
-    $result = login($_POST['email'], $_POST['password']);
-    if ($result['success']) {
-      header('Location: ?page=dashboard');
-      exit;
-    } else {
-      echo $twig->render('login.twig', ['error' => $result['error']]);
-      exit;
-    }
-  }
-
-  if ($page === 'signin') {
-    $result = signup($_POST['name'], $_POST['email'], $_POST['password']);
-    header('Location: ?page=dashboard');
-    exit;
-  }
-
-  if ($page === 'logout') {
-    logout();
-    header('Location: ?page=login');
-    exit;
-  }
+function getCurrentUser() {
+    return $_SESSION['user'] ?? null;
 }
 
-$user = getCurrentUser();
-
-switch ($page) {
-  case 'login':
-    echo $twig->render('login.twig', ['user' => $user]);
-    break;
-  case 'signin':
-    echo $twig->render('signin.twig', ['user' => $user]);
-    break;
-  case 'dashboard':
-    if (!$user) {
-      header('Location: ?page=login');
-      exit;
+function login($email, $password) {
+    if ($email === 'admin@ticket.com' && $password === 'password123') {
+        $userData = [
+            'id' => 1,
+            'name' => 'Admin User',
+            'email' => $email
+        ];
+        $_SESSION['user'] = $userData;
+        return ['success' => true];
     }
-    echo $twig->render('dashboard.twig', ['user' => $user]);
-    break;
-  default:
-    echo $twig->render('landingpage.twig', ['user' => $user]);
+
+    return ['success' => false, 'error' => 'Invalid credentials'];
+}
+
+function signup($name, $email, $password) {
+    $userData = [
+        'id' => time(),
+        'name' => $name,
+        'email' => $email,
+        'password' => $password
+    ];
+
+    $_SESSION['user'] = $userData;
+    return ['success' => true];
+}
+
+function logout() {
+    session_destroy();
 }
